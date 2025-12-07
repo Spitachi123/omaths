@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Cosmic Vector Interface</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Ga+Maamli&family=Lobster&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+body {
+    margin: 0;
+    min-height: 100vh; /* allow body to grow */
+    background: radial-gradient(ellipse at bottom, #0a0f1f 0%, #000 80%);
+    overflow-y: auto; /* enable vertical scrolling */
+    font-family: "Lobster", cursive, sans-serif;
+    font-size: 20px;
+    color: #fff;
+    position: relative;
+}
+
+/* Stars background */
+.stars {
+    width: 100%;
+    height: 100%;
+    background: url("https://www.transparenttextures.com/patterns/stardust.png") repeat;
+    animation: twinkle 8s infinite alternate;
+    position: fixed; /* fixed so it stays while scrolling */
+    top: 0;
+    left: 0;
+    z-index: -2;
+}
+@keyframes twinkle {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+/* Rotating Among Us */
+.amongus {
+    position: fixed;
+    width: 140px;
+    bottom: 25px;
+    right: 25px;
+    animation: spin 8s linear infinite;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: -1;
+}
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Navbar */
+nav {
+    text-align: center;
+    padding: 15px;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(6px);
+    position: sticky; /* sticks at top while scrolling */
+    top: 0;
+    z-index: 10;
+}
+
+nav button {
+    margin: 8px;
+    padding: 14px 22px;
+    cursor: pointer;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #00eaff, #0066ff);
+    color: white;
+    transition: 0.3s;
+}
+nav button:hover {
+    transform: scale(1.1);
+}
+
+/* Sections */
+.section {
+    display: none;
+    padding: 40px 20px;
+    text-align: center;
+}
+#mainContent { display: block; }
+
+/* Modal overlay and container */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    z-index: 98;
+    backdrop-filter: blur(4px);
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #111;
+    padding: 22px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 480px;
+    box-shadow: 0 0 25px #00ffff88;
+    display: none;
+    z-index: 99;
+    text-align: center;
+}
+
+.modal button {
+    margin-top: 10px;
+    background: red;
+    border: none;
+    padding: 10px 18px;
+    cursor: pointer;
+    color: white;
+    border-radius: 6px;
+}
+
+/* Buttons inside Main Content */
+.option-btn {
+    margin: 15px;
+    padding: 15px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+    background: #00ffaa;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+}
+.option-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 20px #00ffaa;
+}
+
+/* Back Button */
+.show-spacecraft-btn {
+    margin: 50px auto;
+    display: block;
+    padding: 18px 36px;
+    font-size: 22px;
+    font-weight: bold;
+    background: linear-gradient(145deg, #00f6ff, #0066ff);
+    border-radius: 40px;
+    box-shadow: 0 0 30px #00f6ff, 0 0 60px #0066ff;
+    cursor: pointer;
+}
+.show-spacecraft-btn:hover {
+    transform: scale(1.1);
+}
+pre {
+    font-family: 'Lobster';
+    font-size: 28px;
+    white-space: pre-wrap; /* wrap text so it doesn’t overflow */
+    line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<img class="amongus" src="imp-removebg-preview.png">
+
+<nav>
+    <button onclick="showMain()">Main Content</button>
+    <button onclick="openModal('imageModal')">Image Bar</button>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent" class="section">
+    <h2>Choose a Topic</h2>
+    <button class="option-btn" onclick="showSection('vectorOps')">Equal Vectors</button>
+    <button class="option-btn" onclick="showSection('vectorProps')">Unequal Vectors</button>
+    <button class="option-btn" onclick="showSection('vectorprll')">Parallel or collinear vectors</button>
+</div>
+
+<!-- Vector Operations Section -->
+<div id="vectorOps" class="section">
+    <pre>
+Equal Vectors
+Definition: Two vectors are equal if they have the same length (magnitude) and point in the same direction.
+
+Example: If vector PQ and vector RS both point northeast and are 5 units long, then PQ = RS.
+    </pre>
+</div>
+
+<div id="vectorProps" class="section">
+    <pre>
+Unequal Vectors
+Vectors are unequal if any of these conditions are true:
+
+1. Same direction but different lengths.
+2. Same length but different directions.
+3. Different lengths and directions.
+
+Example: One arrow is 3 cm pointing north, another is 3 cm pointing east — they’re unequal.
+    </pre>
+</div>
+
+<div id="vectorprll" class="section">
+    <pre>
+Parallel or Collinear Vectors
+Definition: Vectors that lie along the same line or direction, even if they start from different points.
+
+Mathematical form: If a = k·b, they’re parallel. Here, k is any number.
+
+Types:
+🟣 Like Vectors
+Definition: Vectors that point in the same direction, no matter their length.
+Example: Two arrows pointing east — one is 2 cm, the other is 5 cm — they’re like vectors.
+
+🔵 Unlike Vectors
+Definition: Vectors that point in opposite directions, even if their lengths are the same or different.
+Example: One arrow points north, the other south — they’re unlike vectors.
+
+🟠 Co-initial Vectors
+Definition: Vectors that start from the same point.
+Example: If OP and OQ both start from point O, they’re co-initial.
+    </pre>
+</div>
+
+<!-- MODALS -->
+<div id="overlay"></div>
+
+<div class="modal" id="imageModal">
+    <h2>Image Viewer</h2>
+    <img src="immgg.jpg" width="100%">
+    <button onclick="closeModal()">Close</button>
+</div>
+
+<div class="modal" id="chartModal">
+    <h2>Explanation Chart</h2>
+    <ul style="text-align:left;">
+        <li>Vector Quantities</li>
+        <li>Magnitude and Direction</li>
+        <li>Applications in Physics</li>
+    </ul>
+    <button onclick="closeModal()">Close</button>
+</div>
+
+<div class="stars"></div>
+
+<a href="member.html"><button class="show-spacecraft-btn">Back</button></a>
+</body>
+<script>
+function showSection(id) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+    // Show the selected section
+    document.getElementById(id).style.display = 'block';
+    // Scroll to top when switching
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showMain() {
+    showSection('mainContent');
+}
+
+function openModal(id) {
+    // Show overlay and the chosen modal
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById(id).style.display = 'block';
+}
+
+function closeModal() {
+    // Hide overlay and all modals
+    document.getElementById('overlay').style.display = 'none';
+    document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+}
+</script>
+</html>

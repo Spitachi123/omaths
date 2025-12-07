@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crewmate Task Board</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap');
+
+body {
+    margin: 0;
+    font-family: "Orbitron", sans-serif;
+    background: radial-gradient(circle at bottom, #0a1224, #000);
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    overflow-x: hidden;
+    color: white;
+}
+
+/* Stars overlay */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("https://www.transparenttextures.com/patterns/stardust.png");
+    opacity: .35;
+    pointer-events: none;
+}
+
+/* Main Box */
+.container {
+    width: 950px;
+    background: rgba(20, 25, 40, 0.65);
+    border-radius: 18px;
+    backdrop-filter: blur(15px);
+    border: 3px solid #00ffe1;
+    box-shadow: 0 0 40px #00ffe144, inset 0 0 25px #001820;
+    position: relative;
+    z-index: 1;
+}
+
+.title {
+    text-align: center;
+    font-size: 34px;
+    font-weight: 800;
+    margin-top: 18px;
+    text-shadow: 0 0 18px #00fff7;
+    letter-spacing: 2px;
+}
+
+/* Task Counter */
+.task-bar {
+    margin: 18px auto;
+    width: 80%;
+    background: #101d2c;
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid cyan;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: cyan;
+    box-shadow: inset 0 0 15px cyan;
+    animation: flicker 2s infinite alternate;
+}
+
+/* Text Glow Animation */
+@keyframes flicker {
+    from { box-shadow: inset 0 0 8px cyan; }
+    to { box-shadow: inset 0 0 22px cyan; }
+}
+
+/* Reset Button */
+.reset-btn {
+    display: inline-block;
+    margin: 0 auto 20px auto;
+    padding: 10px 22px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 10px;
+    border: 2px solid cyan;
+    background: #0a1224;
+    color: cyan;
+    cursor: pointer;
+    box-shadow: 0 0 12px cyan;
+    transition: 0.3s;
+}
+.reset-btn:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 20px #00eaff;
+}
+
+/* Player Grid */
+.players {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 20px;
+    padding: 25px;
+}
+
+/* Each button */
+.player {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: rgba(35, 45, 60, 0.85);
+    border-radius: 12px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+}
+
+/* Hover Effects */
+.player:hover {
+    transform: scale(1.07);
+    border-color: #00f0ff;
+    box-shadow: 0 0 25px #00eaff;
+}
+
+/* Avatar Style */
+.avatar {
+    width: 55px;
+    height: 55px;
+    margin-right: 14px;
+    border-radius: 50%;
+    border: 2px solid cyan;
+    background-size: cover;
+}
+
+/* All names styled same as title */
+.name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #00fff7;
+    text-shadow: 0 0 12px #00faff;
+    letter-spacing: 1px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 12px;
+    font-size: 18px;
+    background: rgba(9, 15, 25, 0.75);
+    border-radius: 0 0 16px 16px;
+    border-top: 2px solid #0099aa;
+}
+
+/* Game Over Screen */
+#gameOver {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 999;
+    color: red;
+    text-align: center;
+}
+
+#gameOver h1 {
+    font-size: 48px;
+    text-shadow: 0 0 20px red;
+    margin-bottom: 20px;
+}
+
+#gameOver img {
+    max-width: 300px;
+    border: 3px solid red;
+    border-radius: 12px;
+    box-shadow: 0 0 25px red;
+    margin-bottom: 20px;
+}
+
+/* Back Button on Game Over */
+.back-btn {
+    padding: 10px 22px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 10px;
+    border: 2px solid red;
+    background: #220000;
+    color: red;
+    cursor: pointer;
+    box-shadow: 0 0 12px red;
+    transition: 0.3s;
+}
+.back-btn:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 20px #ff4444;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="title">Members Terminal</div>
+
+    <div id="taskCounter" class="task-bar">Tasks Completed: 0/5</div>
+
+    <!-- Reset Button -->
+    <div style="text-align:center;">
+        <button class="reset-btn" onclick="resetTasks()">Reset Tasks</button>
+    </div>
+
+    <div class="players">
+
+        <button class="player" onclick="openPlayer('Krischal Adhikari','kris.html')">
+            <div class="avatar" style="background-image:url('imp-removebg-preview.png')"></div>
+            <span class="name">Krischal Adhikari</span>
+        </button>
+
+        <button class="player" onclick="openPlayer('Sujan Pandey','sujan.html')">
+            <div class="avatar" style="background-image:url('imp-removebg-preview.png')"></div>
+            <span class="name">Sujan Pandey</span>
+        </button>
+
+        <button class="player" onclick="openPlayer('Pratik Adhikari','pratik.html')">
+            <div class="avatar" style="background-image:url('imp-removebg-preview.png')"></div>
+            <span class="name">Pratik Adhikari</span>
+        </button>
+
+        <button class="player" onclick="openPlayer('Aayan Pokhrel','aayan.html')">
+            <div class="avatar" style="background-image:url('imp-removebg-preview.png')"></div>
+            <span class="name">Aayan Pokhrel</span>
+        </button>
+
+        <button class="player" onclick="openPlayer('Bijay Neupane','bijay.html')">
+            <div class="avatar" style="background-image:url('imp-removebg-preview.png')"></div>
+            <span class="name">Bijay Neupane</span>
+        </button>
+
+    </div>
+
+    <div class="footer">Tap a Crewmate to Begin Their Task</div>
+</div>
+
+<!-- Game Over Screen -->
+<div id="gameOver">
+    <h1>🚨 Impostor Won the Game 🚨</h1>
+    <img src="imp-removebg-preview.png" alt="Impostor Image">
+    <p> Imposter was Rabindra Sir</p>
+    <button class="back-btn" onclick="goBack()">Go Back</button>
+</div>
+</body>
+<script>
+if (localStorage.getItem("firstRun") === null) {
+    localStorage.setItem("tasksCompleted", 0);
+    localStorage.setItem("firstRun", "done");
+}
+
+let completed = Number(localStorage.getItem("tasksCompleted")) || 0;
+updateDisplay();
+
+function updateDisplay() {
+    document.getElementById("taskCounter").innerText = `Tasks Completed: ${completed}/5`;
+
+    // Show Game Over screen if tasks reach 5
+    if (completed >= 5) {
+        document.getElementById("gameOver").style.display = "flex";
+    }
+}
+
+function openPlayer(name, file) {
+    localStorage.setItem("lastPlayer", name);
+    window.location.href = file;
+}
+
+function resetTasks() {
+    completed = 0;
+    localStorage.setItem("tasksCompleted", completed);
+    updateDisplay();
+    document.getElementById("gameOver").style.display = "none";
+}
+
+function goBack() {
+    // Hide Game Over screen and return to board
+    document.getElementById("gameOver").style.display = "none";
+    // Optionally reset tasks when going back
+    completed = 0;
+    localStorage.setItem("tasksCompleted", completed);
+    updateDisplay();
+}
+
+window.onload = () => {
+    let last = localStorage.getItem("lastPlayer");
+    if (!last || last === "null") return;
+
+    // Always increment tasks for any player
+    completed++;
+    localStorage.setItem("tasksCompleted", completed);
+
+    localStorage.removeItem("lastPlayer");
+    updateDisplay();
+};
+</script>
+</html>

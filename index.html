@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Vector Cosmic Launch Interface</title>
+<style>
+  /* --- Global & Background Styles --- */
+  body {
+    margin: 0;
+    height: 100vh;
+    /* Deep space gradient */
+    background: radial-gradient(ellipse at bottom, #0a0f1f 0%, #000 90%);
+    overflow: hidden;
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
+    position: relative;
+  }
+
+  /* Starfield background pattern (reliable) */
+  .stars {
+    width: 100%;
+    height: 100%;
+    background: url("https://www.transparenttextures.com/patterns/stardust.png") repeat;
+    animation: twinkle 8s infinite alternate;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+  @keyframes twinkle {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+  }
+
+  /* --- Title Styles --- */
+  h1 {
+    text-align: center;
+    font-size: 48px;
+    margin-top: 30px;
+    text-shadow: 0 0 25px #00f6ff, 0 0 50px #0066ff;
+    animation: glowText 3s infinite alternate;
+    z-index: 5;
+    position: relative;
+  }
+  @keyframes glowText {
+    from { text-shadow: 0 0 15px #00f6ff; }
+    to { text-shadow: 0 0 35px #00f6ff; }
+  }
+
+  /* --- Planet and Celestial Body Styles --- */
+  .celestial-body {
+    position: absolute;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    /* Subtle orbit rings effect */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    z-index: 2;
+  }
+
+  /* Sun (Large and central) */
+  .sun {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
+    /* Placeholder or direct base color for guaranteed display */
+    background-image:url(sun.png);
+    /* Strong glow effect */
+
+    z-index: 1;
+    animation: solarPulse 5s infinite alternate;
+    border: none; /* No border for the Sun */
+  }
+  @keyframes solarPulse {
+    from { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+    to { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+  }
+
+  /* Earth (Static, positioned for visual balance) */
+  .earth-container {
+    top: 40%;
+    left: 20%;
+    width: 120px;
+    height: 120px;
+    /* Placeholder for Earth image */
+    background-image: url('earth.png'); /* Using a reliable placeholder */
+    z-index: 3;
+    border-width: 3px;
+  }
+
+  /* Jupiter (Static, positioned for visual balance) */
+  .jupiter {
+    top: 25%;
+    right: 15%;
+    width: 150px;
+    height: 150px;
+    /* Placeholder for Jupiter image */
+    background-image: url('jupiter.png'); /* Using a reliable placeholder */
+    z-index: 3;
+    border-width: 3px;
+    box-shadow: 0 0 20px #ff9900;
+  }
+
+  /* --- Spacecraft & Launch Styles --- */
+  #craftOrbit {
+    position: absolute;
+    bottom: -100px; /* Start below the screen */
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    margin-left: -50px;
+    display: none;
+    z-index: 5;
+    transition: transform 4s cubic-bezier(0.7, 0, 0.3, 1); /* Smoother launch curve */
+  }
+  #craftOrbit.launching {
+    transform: translateY(-80vh); /* Launch high into space */
+  }
+
+  .spacecraft {
+    width: 100px;
+    height: 100px;
+    /* Custom, simple rocket image/shape for guaranteed display */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 0 L65 75 L50 90 L35 75 Z" fill="%23ccc"/><rect x="40" y="30" width="20" height="50" fill="%23fff"/><circle cx="50" cy="90" r="10" fill="%23aaa"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: drop-shadow(0 0 15px #fff);
+    position: relative;
+    transform: rotate(180deg); /* Point up */
+  }
+
+  .flame {
+    position: absolute;
+    top: -40px; /* Position the flame at the bottom */
+    left: 50%;
+    width: 30px;
+    height: 60px;
+    background: radial-gradient(circle, #ffee99 20%, #ff6600 60%, transparent 100%);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    animation: flameFlicker 0.15s infinite alternate;
+  }
+  @keyframes flameFlicker {
+    from { transform: translateX(-50%) scaleY(1); opacity: 0.8; }
+    to { transform: translateX(-50%) scaleY(1.4); opacity: 1; }
+  }
+
+  /* --- Button Styles --- */
+  .show-spacecraft-btn {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 18px 36px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(145deg, #00f6ff, #0066ff);
+    border: 3px solid #fff;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 0 30px #00f6ff, 0 0 80px #0066ff, inset 0 0 10px #ffffff;
+    transition: all 0.3s ease;
+    z-index: 6;
+  }
+  .show-spacecraft-btn:hover {
+    transform: scale(1.05) translateX(-50%);
+    box-shadow: 0 0 50px #00f6ff, 0 0 100px #0066ff, inset 0 0 20px #ffffff;
+  }
+  .show-spacecraft-btn:disabled {
+    background: linear-gradient(145deg, #505050, #202020);
+    border-color: #505050;
+    cursor: not-allowed;
+  }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<h1>🌠 Welcome to the world of Vector!</h1>
+
+<div class="celestial-body sun"></div>
+
+<div class="celestial-body earth-container"></div>
+
+<div class="celestial-body jupiter"></div>
+
+
+<div id="craftOrbit">
+  <div class="spacecraft">
+    <div class="flame"></div>
+  </div>
+</div>
+
+<button class="show-spacecraft-btn" id="showCraftBtn">🚀 Initiate Launch Sequence</button>
+
+<script>
+  const craftOrbit = document.getElementById("craftOrbit");
+  const showCraftBtn = document.getElementById("showCraftBtn");
+
+  showCraftBtn.addEventListener("click", () => {
+    // 1. Disable button
+    showCraftBtn.disabled = true;
+    showCraftBtn.textContent = "Ignition...";
+
+    // 2. Show the rocket
+    craftOrbit.style.display = "block";
+
+    // 3. Initiate Launch (after a tiny delay for CSS to catch up)
+    setTimeout(() => {
+      craftOrbit.classList.add("launching");
+      showCraftBtn.textContent = "Ascension...";
+    }, 50);
+
+    // 4. Redirect after launch animation is complete (4 seconds)
+    setTimeout(() => {
+      window.location.href = "member.html";
+    }, 4050);
+  });
+</script>
+
+</body>
+</html>

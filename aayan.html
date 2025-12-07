@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Cosmic Vector Interface</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Ga+Maamli&family=Lobster&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+body {
+    margin: 0;
+    min-height: 100vh;   /* allow body to expand */
+    background: radial-gradient(ellipse at bottom, #0a0f1f 0%, #000 80%);
+    overflow-x: hidden;  /* no horizontal scroll */
+    overflow-y: auto;    /* enable vertical scroll */
+    font-family: "Lobster", cursive, sans-serif;
+    font-size: 20px;
+    color: #fff;
+    position: relative;
+}
+
+/* Stars background */
+.stars {
+    width: 100%;
+    height: 100%;
+    background: url("https://www.transparenttextures.com/patterns/stardust.png") repeat;
+    animation: twinkle 8s infinite alternate;
+    position: fixed; /* stays fixed while scrolling */
+    top: 0;
+    left: 0;
+    z-index: -2;
+}
+@keyframes twinkle {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+/* Rotating Among Us */
+.amongus {
+    position: fixed;
+    width: 140px;
+    bottom: 25px;
+    right: 25px;
+    animation: spin 8s linear infinite;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: -1;
+}
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Navbar */
+nav {
+    text-align: center;
+    padding: 15px;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(6px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+nav button {
+    margin: 8px;
+    padding: 14px 22px;
+    cursor: pointer;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #00eaff, #0066ff);
+    color: white;
+    transition: 0.3s;
+}
+nav button:hover {
+    transform: scale(1.1);
+}
+
+/* Sections */
+.section {
+    display: none;
+    padding: 20px;
+    text-align: center;
+}
+#mainContent { display: block; }
+
+/* Modal overlay and container */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    z-index: 98;
+    backdrop-filter: blur(4px);
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #111;
+    padding: 22px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 480px;
+    box-shadow: 0 0 25px #00ffff88;
+    display: none;
+    z-index: 99;
+    text-align: center;
+}
+
+.modal button {
+    margin-top: 10px;
+    background: red;
+    border: none;
+    padding: 10px 18px;
+    cursor: pointer;
+    color: white;
+    border-radius: 6px;
+}
+
+/* Buttons inside Main Content */
+.option-btn {
+    margin: 15px;
+    padding: 15px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+    background: #00ffaa;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+}
+.option-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 20px #00ffaa;
+}
+
+/* Back Button */
+.show-spacecraft-btn {
+    position: relative;
+    margin: 40px auto;
+    display: block;
+    padding: 18px 36px;
+    font-size: 22px;
+    font-weight: bold;
+    background: linear-gradient(145deg, #00f6ff, #0066ff);
+    border-radius: 40px;
+    box-shadow: 0 0 30px #00f6ff, 0 0 60px #0066ff;
+    cursor: pointer;
+}
+.show-spacecraft-btn:hover {
+    transform: scale(1.1);
+}
+pre{
+  font-family: 'Lobster';
+    font-size: 35px;
+}
+</style>
+</head>
+
+<body>
+
+<img class="amongus" src="imp-removebg-preview.png">
+
+<nav>
+    <button onclick="showMain()">Main Content</button>
+    <button onclick="openModal('imageModal')">Summary</button>
+  
+</nav>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent" class="section">
+    <h2>Choose a Topic</h2>
+    <button class="option-btn" onclick="showSection('vectorOps')">Direction of Vectors </button>
+    <button class="option-btn" onclick="showSection('vectorProps')">Ways to Show the Direction of a Vector </button>
+    <button class="option-btn" onclick="showSection('vectortps')">Types of Vector </button>
+</div>
+
+<!-- Vector Operations Section -->
+<div id="vectorOps" class="section">
+    <h2> Direction of Vectors</h2>
+    <p>The direction of a vector tells us which way the vector is pointing. Direction of the vector is important because two vectors with the same magnitude can be completely different if they point in different directions.<br>
+For example:<br>
+10 N force upwards<br>
+10 N force to the right<br>
+These produce different effects even though their magnitudes are equal.<br>
+Examples where direction is essential:<br>
+Wind direction<br>
+Movement of vehicles<br>
+Navigation using maps<br>
+Forces acting on objects<br>
+Sports (e.g., throwing a ball)
+</p>
+</div>
+
+<div id="vectorProps" class="section">
+    <h2>Ways to Show the Direction of a Vector </h2>
+    <p>The direction of a vector shows which way it points. There are several ways to represent it mathematically or descriptively.</p>
+    <hr>
+    <ol>
+      <h2><li> Angle with a Reference Axis</li></h2>
+      <pre>1.Angle with a Reference Axis
+A vector’s direction can be expressed as the angle it makes with a reference axis, usually the x-axis (horizontal axis).
+This angle is measured in degrees or radians.
+Example:
+v⃗=10 units at 45 degree v=10 units at 45 degree
+Meaning: The vector has a magnitude of 10 units and points 45° above the horizontal x-axis, towards the top-right direction.
+Using angles is useful when vectors are drawn or when calculating direction mathematically.
+</pre>
+      <pre>2.Vector Components
+A vector can be split into horizontal (x) and vertical (y) components.
+This method shows exactly how far the vector moves along each axis, which determines its direction.
+Example:
+v⃗=3i^+4j^​=3i^+4j^​
+Meaning: The vector moves 3 units in the x-direction (right) and 4 units in the y-direction (up).
+Using components makes it easy to calculate direction, especially for vectors not aligned along a single axis.
+<hr>
+3. Compass Directions
+Vectors can also be described using compass points, commonly used in navigation and practical applications.
+Directions are expressed as North (N), South (S), East (E), West (W), or combinations like North-East (NE).
+Example:
+v⃗=5 m North-East
+Meaning: The vector points diagonally between North and East.
+Compass directions give an easy descriptive understanding of the vector’s orientation in space.
+</pre>
+    </ol>
+<hr>
+</div>
+<div id="vectortps" class="section">
+  <pre>
+     Row Vector
+A vector written in a single horizontal row.
+Example:
+v⃗=[2,3,4]v=[2,3,4]
+Often used in matrices and linear algebra.
+
+2. Column Vector
+A vector written in a single vertical column.
+Example:
+
+Useful in matrix operations and computer programming.
+
+3. Zero Vector (0⃗0)
+A vector with magnitude 0 and no specific direction.
+Example:
+0⃗=[0,0,0]0=[0,0,0]
+Represents no movement or null effect.
+
+4. Unit Vector (i^,j^,k^i^,j^​,k^)
+A vector with magnitude 1 used to indicate direction along axes.
+Example:
+i^=[1,0,0]i^=[1,0,0], j^=[0,1,0]j^​=[0,1,0]
+Unit vectors are often used to build other vectors using components.
+Negative Vector (−A⃗−A)
+A negative vector has the same magnitude as a given vector but points in the opposite direction.
+It is represented as:
+                                −A⃗
+Meaning: If A⃗points right, −A⃗ points left; if A⃗ points up, −A⃗ points down.
+Negative vectors are often used to reverse the effect of a vector, such as in forces, displacement, or velocity.
+
+  </pre>
+</div>
+<!-- MODALS -->
+<div id="overlay"></div>
+
+<div class="modal" id="imageModal">
+    <h2>Image Viewer</h2>
+    <img src=".png" width="100%">
+    <button onclick="closeModal()">Close</button>
+</div>
+
+<div class="modal" id="chartModal">
+    <h2>Explanation Chart</h2>
+    <ul style="text-align:left;">
+        <li>Vector Quantities</li>
+        <li>Magnitude and Direction</li>
+        <li>Applications in Physics</li>
+    </ul>
+    <button onclick="closeModal()">Close</button>
+</div>
+
+<div class="stars"></div>
+
+<a href="member.html"><button class="show-spacecraft-btn">Back</button></a>
+</body>
+<script>
+function showSection(id) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+    // Show the requested section
+    document.getElementById(id).style.display = 'block';
+}
+
+function showMain() {
+    showSection('mainContent');
+}
+
+function openModal(id) {
+    // Show overlay
+    document.getElementById('overlay').style.display = 'block';
+    // Show the requested modal
+    document.getElementById(id).style.display = 'block';
+}
+
+function closeModal() {
+    // Hide overlay
+    document.getElementById('overlay').style.display = 'none';
+    // Hide all modals
+    document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+}
+</script>
+</html>
